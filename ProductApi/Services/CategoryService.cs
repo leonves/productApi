@@ -9,12 +9,14 @@ namespace ProductApi.Services
     public class CategoryService : ICategoryService
     {
         private readonly IMongoCollection<Category> _categoryCollection;
+        private readonly IMongoCollection<Product> _productCollection;
         private readonly IMapper _mapper;
 
         public CategoryService(IMongoDatabase database, IMapper mapper)
         {
             _categoryCollection = database.GetCollection<Category>("Category");
             _mapper = mapper;
+            _productCollection = database.GetCollection<Product>("Product");
         }
 
         public async Task<Category> CreateCategory(CategoryRequest categoryRequest)
@@ -51,7 +53,17 @@ namespace ProductApi.Services
 
         public async Task<bool> DeleteCategory(string categoryId)
         {
+            var productWithCategory = await _productCollection
+                .Find(p => p.CategoryId == categoryId)
+                .FirstOrDefaultAsync();
+
+            if (productWithCategory is not null)
+            {
+                throw new ArgumentException($"Cannot delete category with ID {categoryId} because it is associated with a product (Product ID: {productWithCategory.Id}).");
+            }
+
             var result = await _categoryCollection.DeleteOneAsync(c => c.Id == categoryId);
+
             return result.DeletedCount > 0;
         }
     }

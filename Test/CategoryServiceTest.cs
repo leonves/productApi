@@ -21,13 +21,13 @@ namespace CategoryServiceTest
             var mockCategoryService = new Mock<ICategoryService>();
           
             mockCategoryService.Setup(x => x.CreateCategory(It.IsAny<CategoryRequest>()))
-                  .ReturnsAsync(new Category() { Name = "Name", Description = "Description" });
+                  .ReturnsAsync(new Category("Name", "Description"));
 
             mockCategoryService.Setup(x => x.GetCategoryById(It.IsAny<string>())).ReturnsAsync((string categoryId) =>
             {
                 if (categoryId == "1")
                 {
-                    return new Category() { Id = "1", Name = "CategoryName", Description = "CategoryDescription" };
+                    return new Category("1", "CategoryName", "CategoryDescription");
                 }
                 else
                 {
@@ -40,12 +40,8 @@ namespace CategoryServiceTest
             {
                 if (categoryId == "1")
                 {
-                    var updatedCategory = new Category()
-                    {
-                        Id = "1",
-                        Name = categoryRequest.Name,
-                        Description = categoryRequest.Description
-                    };
+                    var updatedCategory = new Category("1", categoryRequest.Name, categoryRequest.Description);
+
                     return updatedCategory;
                 }
                 else
@@ -69,11 +65,11 @@ namespace CategoryServiceTest
 
             var Categories = new List<Category>
             {
-                new Category { Id = "1", Name = "Category 1", Description = "Description 1" },
-                new Category { Id = "2", Name = "Category 2", Description = "Description 2" },
-                new Category { Id = "3", Name = "Category 3", Description = "Description 3" },
-                new Category { Id = "4", Name = "Category 4", Description = "Description 4" },
-                new Category { Id = "5", Name = "Category 5", Description = "Description 5" }
+                new Category("1", "CategoryName 1", "CategoryDescription 1"),
+                new Category("2", "CategoryName 2", "CategoryDescription 2"),
+                new Category("3", "CategoryName 3", "CategoryDescription 3"),
+                new Category("4", "CategoryName 4", "CategoryDescription 4"),
+                new Category("5", "CategoryName 5", "CategoryDescription 5")
             };
 
             mockCategoryService.Setup(x => x.GetCategories())

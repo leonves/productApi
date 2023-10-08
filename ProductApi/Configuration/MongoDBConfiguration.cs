@@ -17,20 +17,17 @@ namespace ProductApi.Configuration
                     { "$jsonSchema", new BsonDocument
                         {
                             { "bsonType", "object" },
-                            { "required", new BsonArray { "Name", "Description", "Price", "Category", "Color" } },
+                            { "required", new BsonArray { "Name", "Description", "Price", "CategoryId" } },
                             { "properties", new BsonDocument
                                 {
                                     { "Name", new BsonDocument
                                         {
                                             { "bsonType", "string" },
-                                            { "maxLength", 100 }
                                         }
                                     },
                                     { "Description", new BsonDocument
                                         {
                                             { "bsonType", "string" },
-                                            { "maxLength", 150 },
-                                            { "pattern", "^.*{name}.*$" }
                                         }
                                     },
                                     { "Price", new BsonDocument
@@ -38,7 +35,7 @@ namespace ProductApi.Configuration
                                             { "bsonType", "decimal" }
                                         }
                                     },
-                                    { "Category", new BsonDocument
+                                    { "CategoryId", new BsonDocument
                                         {
                                             { "bsonType", "objectId" }
                                         }

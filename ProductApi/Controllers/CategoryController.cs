@@ -16,13 +16,10 @@ namespace ProductApi.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IMongoCollection<Category> _categoryCollection;
         private readonly ICategoryService _categoryService;
-        public CategoryController(IMongoDatabase database, IMapper mapper, ICategoryService categoryService)
+
+        public CategoryController(ICategoryService categoryService)
         {
-            _categoryCollection = database.GetCollection<Category>("Category");
-            _mapper = mapper;
             _categoryService = categoryService;
         }
 
@@ -112,6 +109,10 @@ namespace ProductApi.Controllers
                 }
 
                 return Ok(deletedCategory);
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(400, ex.Message);
             }
             catch (Exception ex)
             {

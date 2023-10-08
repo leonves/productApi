@@ -24,6 +24,7 @@ MongoDBConfiguration.ConfigureProductCollectionValidation(database);
 MongoDBConfiguration.ConfigureCategoryCollectionValidation(database);
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddSingleton<IMongoClient>(client);
 builder.Services.AddSingleton<IMongoDatabase>(database);
