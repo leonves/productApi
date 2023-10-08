@@ -39,6 +39,18 @@ namespace ProductApi.Models.Response
             Color = color;
         }
 
+        public Product(string id, string name, string description, decimal price, string categoryId, string color)
+        {
+            ValidateInput(name, description, price, categoryId, color);
+
+            Id = id;
+            Name = name;
+            Description = description;
+            Price = price;
+            CategoryId = categoryId;
+            Color = color;
+        }
+
         private static void ValidateInput(string name, string description, decimal price, string categoryId, string color)
         {
             if (string.IsNullOrWhiteSpace(name))
